@@ -1,0 +1,160 @@
+site:*.gov "slack" ext:pdf 
+site:*.edu "slack webhook" ext:txt 
+site:*.org "incoming-webhook" ext:json 
+site:*.domain.com "microsoft teams" ext:docx 
+site:*.domain.com "teams.microsoft.com" ext:pdf 
+site:*.domain.gov "confluence internal" ext:pdf 
+site:*.org "confluence space" ext:docx 
+site:*.edu "jira issues" ext:xlsx 
+site:*.domain.com "jira.atlassian.net" ext:txt 
+site:*.domain.com "trello board" ext:json 
+site:*.gov "notion.so" ext:pdf 
+site:*.edu "notion workspace" ext:txt 
+site:*.domain.com "internal notion" ext:docx 
+site:*.org "webex meeting" ext:pdf 
+site:*.domain.com "zoom link" ext:txt 
+site:*.domain.com "chat history" ext:log 
+site:*.domain.com "conversation log" ext:txt 
+site:*.domain.com "meeting notes" ext:docx 
+site:*.domain.com "project updates" ext:xlsx 
+site:*.domain.com "status update" ext:pdf 
+site:*.gov "password" ext:xls 
+site:*.edu "confidential" ext:pdf 
+site:*.org "internal use only" ext:docx 
+site:*.domain.com "api_key" ext:env 
+site:*.domain.com "access_token" ext:txt 
+site:*.domain.gov "login" "credentials" ext:xlsx 
+site:*.edu "ssh private key" ext:key 
+site:*.org "database dump" ext:sql 
+site:*.domain.com "ftp" "credentials" ext:csv 
+site:*.gov "secret" ext:txt 
+site:*.domain.com "smtp" "username" "password" ext:doc 
+site:*.domain.edu "token" ext:json 
+site:*.org "jwt" "secret" ext:js 
+site:*.domain.com "vpn configuration" ext:ovpn 
+site:*.domain.gov "slack" ext:pdf 
+site:*.edu "site configuration" ext:yaml 
+site:*.org "internal memo" ext:docx 
+site:*.domain.com "error log" ext:log 
+site:*.domain.com "confidential report" ext:xlsx 
+site:*.domain.com "env" "DATABASE_PASSWORD" ext:env 
+site:*.domain.com "jenkins" "build log" ext:log 
+site:*.domain.com "gitlab-ci.yml" ext:yml 
+site:*.gov "bitbucket-pipelines.yml" ext:yml 
+site:*.edu "circleci" "config.yml" ext:yml 
+site:*.org "travis.yml" ext:yml 
+site:*.domain.com "docker-compose" ext:yaml 
+site:*.domain.com "docker-compose" ext:env 
+site:*.domain.com "kubernetes secrets" ext:yaml 
+site:*.domain.com "k8s" "config" ext:yaml 
+site:*.domain.com "secrets" "AWS_ACCESS_KEY_ID" ext:env 
+site:*.domain.com "DATABASE_URL" ext:env 
+site:*.domain.com "npmrc" "_authToken" ext:npmrc 
+site:*.domain.com "github_token" ext:json 
+site:*.domain.com "git-credentials" ext:txt 
+site:*.domain.com "bitbucket" "credentials" ext:txt 
+site:*.domain.com "id_rsa" ext:key 
+site:*.domain.com "pem" "private key" ext:pem 
+site:*.domain.com "s3 bucket" ext:txt 
+site:*.domain.com "config.json" "db_password" ext:json 
+site:*.domain.com "ssh config" ext:conf 
+site:*.domain.com "backup" ext:sql 
+site:*.domain.com "database dump" ext:sql 
+site:*.domain.com "dump" "INSERT INTO" ext:sql 
+site:*.domain.com "mysql dump" ext:sql 
+site:*.domain.com "pg_dump" ext:sql 
+site:*.domain.com "db_backup" ext:zip 
+site:*.domain.com "database" ext:bak 
+site:*.domain.com "backup" ext:tar.gz 
+site:*.domain.com "dump" ext:7z 
+site:*.domain.com "backup" ext:rar 
+site:*.domain.com "backup" "password" ext:txt 
+site:*.domain.com "full backup" ext:gz 
+site:*.domain.com "dump.sql" ext:sql 
+site:*.domain.com "backup.sql" ext:sql 
+site:*.domain.com "site-backup" ext:zip 
+site:*.domain.com "db_dump" ext:json 
+site:*.domain.com "mongoexport" ext:json 
+site:*.domain.com "mongodb dump" ext:bson 
+site:*.domain.com "site_backup" ext:tar 
+site:*.domain.com "wordpress" "backup" ext:sql 
+site:*.domain.com "Exception in thread" ext:log 
+site:*.domain.com "Traceback (most recent call last)" ext:log 
+site:*.domain.com "error_log" ext:log 
+site:*.domain.com "debug.log" ext:log 
+site:*.domain.com "system.log" ext:log 
+site:*.domain.com "application.log" ext:log 
+site:*.domain.com "fatal error" ext:txt 
+site:*.domain.com "uncaught exception" ext:txt 
+site:*.domain.com "PHP Warning" ext:log 
+site:*.domain.com "PHP Fatal error" ext:log 
+site:*.domain.com "NullPointerException" ext:log 
+site:*.domain.com "Warning: mysqli_connect()" ext:log 
+site:*.domain.com "Warning: pg_connect()" ext:log 
+site:*.domain.com "Laravel log" ext:log 
+site:*.domain.com "django" "error" ext:log 
+site:*.domain.com "flask" "debug" ext:log 
+site:*.domain.com "express.js" "TypeError" ext:log 
+site:*.domain.com "stack trace" ext:txt 
+site:*.domain.com "connection refused" ext:log 
+site:*.domain.com "sql syntax error" ext:log 
+site:*.domain.com "MAIL_HOST" "MAIL_USERNAME" ext:env 
+site:*.domain.com "MAILGUN_API_KEY" ext:env 
+site:*.domain.com "SENDGRID_API_KEY" ext:env 
+site:*.domain.com "SMTP_PASSWORD" ext:env 
+site:*.domain.com "SMTP server" "email password" ext:txt 
+site:*.domain.com "MAIL_DRIVER" "MAIL_HOST" ext:env 
+site:*.domain.com "MAIL_PORT" "MAIL_USERNAME" ext:txt 
+site:*.domain.com "email configuration" ext:json 
+site:*.domain.com "smtp config" ext:xml 
+site:*.domain.com "mailserver settings" ext:ini 
+site:*.domain.com "phpmailer" "Host =" ext:php 
+site:*.domain.com "config.php" "SMTP" ext:php 
+site:*.domain.com "env" "MAIL_PASSWORD" ext:env 
+site:*.domain.com "smtp email" "password" ext:yaml 
+site:*.domain.com "smtp_auth" ext:conf 
+site:*.domain.com "user" "pass" "smtp" ext:log 
+site:*.domain.com "imap" "email" "login" ext:txt 
+site:*.domain.com "mail.php" ext:php 
+site:*.domain.com "smtp_credentials" ext:json 
+site:*.domain.com ".env" "MAIL_FROM_ADDRESS" ext:env 
+site:*.domain.com intitle:"admin panel" 
+site:*.domain.com intitle:"login" inurl:admin 
+site:*.domain.com inurl:/admin/login ext:php 
+site:*.domain.com inurl:/administrator ext:html 
+site:*.domain.com "Welcome to Jenkins!" ext:html 
+site:*.domain.com intitle:"Dashboard [Jenkins]" 
+site:*.domain.com intitle:"GitLab" inurl:/users/sign_in 
+site:*.domain.com intitle:"Grafana" inurl:/login 
+site:*.domain.com intitle:"Kibana" inurl:/app/kibana 
+site:*.domain.com intitle:"phpMyAdmin" inurl:phpmyadmin 
+site:*.domain.com "Zabbix" inurl:/zabbix.php?action=dashboard.view 
+site:*.domain.com intitle:"Prometheus Time Series Collection" 
+site:*.domain.com inurl:/rundeck/login 
+site:*.domain.com intitle:"Admin Console" ext:jsp 
+site:*.domain.com "Tomcat Manager Application" inurl:/manager 
+site:*.domain.com intitle:"SonarQube" inurl:/sessions/new 
+site:*.domain.com intitle:"Portainer" inurl:/#!/auth 
+site:*.domain.com intitle:"TeamCity" inurl:/login.html 
+site:*.domain.com inurl:/secure/Dashboard.jspa intitle:"Jira" 
+site:*.domain.com inurl:/login ext:aspx 
+site:*.domain.com ext:conf "DB_HOST" 
+site:*.domain.com ext:conf "DB_PASSWORD" 
+site:*.domain.com ext:ini "smtp_password" 
+site:*.domain.com ext:ini "database_user" 
+site:*.domain.com ext:conf "mysql root" 
+site:*.domain.com ext:properties "db.url" 
+site:*.domain.com ext:properties "spring.datasource.password" 
+site:*.domain.com ext:xml "configuration" "password" 
+site:*.domain.com ext:yaml "secret_key" 
+site:*.domain.com ext:yml "API_KEY" 
+site:*.domain.com ext:env "APP_KEY" 
+site:*.domain.com ext:json "client_secret" 
+site:*.domain.com ext:conf "ldap.adminPassword" 
+site:*.domain.com ext:conf "proxy_pass" 
+site:*.domain.com ext:conf "access_log" 
+site:*.domain.com ext:conf "ssl_certificate" 
+site:*.domain.com ext:php "config" "define('DB_PASSWORD'" 
+site:*.domain.com ext:py "settings.py" "EMAIL_HOST_PASSWORD" 
+site:*.domain.com ext:rb "config/secrets.yml" 
+site:*.domain.com ext:js "firebaseConfig" "apiKey" 
