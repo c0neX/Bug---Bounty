@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# OpenBash Pentesting Tools - Stealthy and Efficient Offensive Crawler
-# Author: OpenBash Security Team
+# Author: c0neX
 
 set -e
 
