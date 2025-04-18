@@ -35,6 +35,9 @@ regex_patterns = {
 
 downloaded_hashes = set()
 results_db = {}
+visited_js_urls = set()
+js_queue = set()
+MAX_FILES_TO_ANALYZE = 100  # Limite máximo de arquivos JS para analisar
 
 def run_command(cmd):
     try:
@@ -45,16 +48,13 @@ def run_command(cmd):
         return []
 
 def extract_live_js(target):
-    print(f"[+] Extracting live JS from: {target}")
-    js_links = set()
-
+    print(f"[+] Extracting initial live JS links from: {target}")
+    initial_js_links = set()
     subjs_output = run_command(f"subjs {target}")
-    js_links.update(subjs_output)
-
+    initial_js_links.update(subjs_output)
     getjs_output = run_command(f"getJS --url {target}")
-    js_links.update(getjs_output)
-
-    return list(js_links)
+    initial_js_links.update(getjs_output)
+    return list(initial_js_links)
 
 def extract_wayback_js(domain):
     print(f"[+] Extracting Wayback JS from: {domain}")
@@ -73,7 +73,8 @@ def download_js_file(js_url):
                 return js_url, None
             downloaded_hashes.add(content_hash)
             return js_url, jsbeautifier.beautify(content)
-    except:
+    except requests.RequestException as e:
+        print(f"  [!] Error downloading {js_url}: {e}")
         return js_url, None
     return js_url, None
 
@@ -95,6 +96,16 @@ def run_gf(content, gf_name):
         if os.path.exists(".temp.js"):
             os.remove(".temp.js")
 
+def find_links_in_js(js_url, content):
+    new_links = set()
+    linkfinder_output = run_command(f"python3 {LINKFINDER_PATH} -i {js_url} -o cli")
+    for link in linkfinder_output:
+        if link.endswith(".js") and urlparse(link).netloc in urlparse(js_url).netloc:
+            absolute_url = urlparse(urljoin(js_url, link))
+            if absolute_url.scheme in ('http', 'https'):
+                new_links.add(absolute_url.geturl())
+    return new_links
+
 def analyze_js(js_url, content):
     analysis = {"url": js_url, "regex": {}, "gf": {}}
 
@@ -107,27 +118,46 @@ def analyze_js(js_url, content):
         if matches:
             analysis["gf"][gf_pattern] = matches
 
-    print(f"  - [*] LinkFinder on {js_url}")
-    os.system(f"python3 {LINKFINDER_PATH} -i {js_url} -o cli")
-
     print(f"  - [*] SecretFinder on {js_url}")
     os.system(f"python3 {SECRETFINDER_PATH} -i {js_url} -o cli")
 
     results_db[js_url] = analysis
 
-def analyze_all_js(js_links, label=""):
-    print(f"\n[+] Downloading and analyzing {len(js_links)} JS files from {label}...\n")
-    results = []
+def process_js_url(js_url):
+    if js_url in visited_js_urls or len(visited_js_urls) >= MAX_FILES_TO_ANALYZE:
+        return
 
-    with ThreadPoolExecutor(max_workers=10) as executor:
-        futures = [executor.submit(download_js_file, url) for url in js_links]
-        for future in tqdm(as_completed(futures), total=len(js_links)):
-            js_url, js_content = future.result()
-            if js_content:
-                results.append((js_url, js_content))
-
-    for js_url, js_content in results:
+    visited_js_urls.add(js_url)
+    print(f"  [-] Downloading and analyzing JS: {js_url} ({len(visited_js_urls)}/{MAX_FILES_TO_ANALYZE})")
+    js_content = download_js_file(js_url)[1]
+    if js_content:
         analyze_js(js_url, js_content)
+        new_links = find_links_in_js(js_url, js_content)
+        for link in new_links:
+            if link not in visited_js_urls and link not in js_queue:
+                js_queue.add(link)
+
+def process_target(target):
+    initial_js_links = extract_live_js(target)
+    for link in initial_js_links:
+        if link not in visited_js_urls and link not in js_queue:
+            js_queue.add(link)
+
+    parsed_url = urlparse(target)
+    domain = parsed_url.netloc
+    if not domain:
+        domain = target
+
+    wayback_links = extract_wayback_js(domain)
+    for link in wayback_links:
+        if link not in visited_js_urls and link not in js_queue:
+            js_queue.add(link)
+
+    print(f"\n[+] Initial JS URLs found: {len(js_queue)}")
+
+    while js_queue and len(visited_js_urls) < MAX_FILES_TO_ANALYZE:
+        url_to_process = js_queue.pop()
+        process_js_url(url_to_process)
 
 def save_results():
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -135,19 +165,6 @@ def save_results():
     with open(filename, "w") as f:
         json.dump(results_db, f, indent=2)
     print(f"\n[✔] Results saved to: {filename}")
-
-def process_target(target):
-    live_links = extract_live_js(target)
-    if len(live_links) < 3:
-        print(f"[!] Few live JS files found for {target}, switching to archive...")
-        parsed_url = urlparse(target)
-        domain = parsed_url.netloc
-        if not domain:
-            domain = target # Se não for uma URL válida, tenta usar o input direto como domínio
-        wayback_links = extract_wayback_js(domain)
-        analyze_all_js(wayback_links, label="WAYBACK")
-    else:
-        analyze_all_js(live_links, label="LIVE")
 
 def main():
     parser = argparse.ArgumentParser(description="A tool to hunt for secrets and vulnerabilities in JavaScript files.")
@@ -171,11 +188,17 @@ def main():
 
     for target in targets:
         print(f"\n====== Processing target: {target} ======\n")
+        visited_js_urls.clear()
+        js_queue.clear()
+        downloaded_hashes.clear() # Limpar hashes entre alvos
+        results_db.clear() # Limpar resultados entre alvos
         process_target(target)
+        if visited_js_urls:
+            save_results()
+        else:
+            print("[!] No JS files were analyzed for this target.")
 
-    if targets:
-        save_results()
-    else:
+    if not targets:
         print("[!] No targets provided.")
 
 if __name__ == "__main__":
